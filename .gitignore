@@ -1,0 +1,6 @@
+# Ignoro todo lo de la carpeta test a escepcion de los ficheros Test.h y Test.cpp
+test/*
+!test/Test.cpp
+!test/Test.h
+
+*.log
