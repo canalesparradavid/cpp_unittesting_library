@@ -1,15 +1,15 @@
 # Unit Testing para C++
 Este proyecto consiste en unas herramientas que permiten realizar test unitarios sobre programas escritos en C++.
 
-En el directorio se puede encontrar una carpeta llamada `test` en la que irán la libreria de testeo y todos los test; estos test implementarán la clase descrita en el fichero `Test.h` y que deberan terminar con Test.cpp; por ejemplo, un test para una **clase llamada Reloj se llamaría RelojTest.cpp**.
+En el directorio se puede encontrar una carpeta llamada `test` en la que irán la librería de testeo y todos los test; estos test implementarán la clase descrita en el fichero `Test.h` y que deberán terminar con Test.cpp; por ejemplo, un test para una **clase llamada Reloj se llamaría RelojTest.cpp**.
 
-Tambien se pueden encontrar un fichero `test.sh`, este fichero es el encargado de ejecutar los test unitarios dentro de una terminal. Para ejecutar todos los test hay que ejecutar el comando:
+También se pueden encontrar un fichero `test.sh`, este fichero es el encargado de ejecutar los test unitarios dentro de una terminal. Para ejecutar todos los test hay que ejecutar el comando:
 
 ```
 ./test.sh
 ```
 
-Estas herramientas tienen dos dependencias: `dos2unix` y `tree`, la primera se utiliza para sustituir los saltos de linea de Windows por los de Linux en caso de que se programe desde un sistema con Windows ya que sino el script `test.sh` no funcionará; y el segundo permite al script recorrer todos los directorios en busca de ficheros que compilar; para instalarlos se puede ejecutar el comando:
+Estas herramientas tienen dos dependencias: `dos2unix` y `tree`, la primera se utiliza para sustituir los saltos de línea de Windows por los de Linux en caso de que se programe desde un sistema con Windows ya que sino el script `test.sh` no funcionará; y el segundo permite al script recorrer todos los directorios en busca de ficheros que compilar; para instalarlos se puede ejecutar el comando:
 ```
 sudo apt install dos2unix
 sudo apt install tree
@@ -57,15 +57,16 @@ int main(int argc, char** argv){
 ```
 
 ### Testeo
-Una vez hemos ejecutado el comando `./test.sh` se nos generará un fichero `test.log` que contiene un texto formateado con el resultado del testeo, este fichero se visualizará automaticamente pero quedará almacenado en la raiz del proyecto para facilitar la corrección del codigo.
+Una vez hemos ejecutado el comando `./test.sh` se nos generará un fichero `test.log` que contiene un texto formateado con el resultado del testeo, este fichero se visualizará automáticamente pero quedará almacenado en la raiz del proyecto para facilitar la corrección del código.
 
 Si en algún momento se desea volver a ver el log basta con ejecutar
 ```
 cat test.log
 ```
 
-En este output se pueden leer rapidamente el nombre de los fichero y ver si ha ocurrido algun error y en caso de que los hubiese en que numero de test unitario ha ocurrido.
+En este output se pueden leer rápidamente el nombre de los fichero y ver si ha ocurrido algún error y en caso de que los hubiese en que numero de test unitario ha ocurrido.
 
-Tambien se pueden observar el numero de checks verdes y rojos a la izquierda del nombre del fichero.
+También se pueden observar el numero de checks verdes y rojos a la izquierda del nombre del fichero.
 
 <center><img src="img/result_example.png"></center>
+
