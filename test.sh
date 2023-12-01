@@ -24,7 +24,8 @@ for FILE in $DEPENDENCIES; do
     gcc $FILE -c -o $TEST_TMP_DIRECTORY/$NAME_NO_EXTENSION.o -fpermissive -w
 done;
 
-#Compilo los test y los ejecuto
+# Compilo los test
+COMPILATION_ERRORS=""
 TESTS=$(tree -fi $TEST_DIRECTORY | grep -E [^/]Test.cpp)
 for FILE in $TESTS; do
     NAME_NO_EXTENSION=$(echo $FILE | cut -d '.' -f 1)                       # Quito la extension del fichero
@@ -35,11 +36,29 @@ for FILE in $TESTS; do
 
     if [ $NAME_NO_EXTENSION != 'Test' ]; then                               # Compilo todo menos Test.cpp y Test.h
         g++ $TEST_DIRECTORY/$NAME_NO_EXTENSION.cpp $TEST_TMP_DIRECTORY/*.o -o $TEST_TMP_DIRECTORY/$NAME_NO_EXTENSION -w 2> /dev/null
-        ./$TEST_TMP_DIRECTORY/$NAME_NO_EXTENSION $NAME_NO_EXTENSION >> test.log #2> /dev/null
+        if [ $? = '1' ]; then
+            COMPILATION_ERRORS=$COMPILATION_ERRORS"ERROR COMPILANDO EL TEST: "$NAME_NO_EXTENSION"\n"
+        fi
+        #./$TEST_TMP_DIRECTORY/$NAME_NO_EXTENSION $NAME_NO_EXTENSION >> test.log 2> /dev/null
+    fi
+done;
+#echo $COMPILATION_ERRORS >> test.log
+echo "$COMPILATION_ERRORS" >> test.log
 
+# Ejecuto los test
+TESTS=$(tree -fi $TEST_DIRECTORY | grep -E [^/]Test.cpp)
+for FILE in $TESTS; do
+    NAME_NO_EXTENSION=$(echo $FILE | cut -d '.' -f 1)                       # Quito la extension del fichero
+    NAME_NO_EXTENSION=$(echo $NAME_NO_EXTENSION | cut -d '/' -f 2-)         # Quito la primera parte de la ruta
+    FILE_PATH=$(echo "/"$NAME_NO_EXTENSION | rev | cut -d '/' -f 2- | rev)  # Almaceno la subruta
+
+    mkdir -p ./$TEST_TMP_DIRECTORY/$FILE_PATH
+
+    if [ $NAME_NO_EXTENSION != 'Test' ]; then                               # Compilo todo menos Test.cpp y Test.h
+        ./$TEST_TMP_DIRECTORY/$NAME_NO_EXTENSION $NAME_NO_EXTENSION >> test.log 2> /dev/null
     fi
 done;
 
 cat test.log
 
-rm -rf $TEST_TMP_DIRECTORY
+#rm -rf $TEST_TMP_DIRECTORY
