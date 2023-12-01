@@ -25,8 +25,6 @@ for FILE in $DEPENDENCIES; do
 done;
 
 #Compilo los test y los ejecuto
-TOTAL_FAILURES=0
-FAILED_TESTS=""
 TESTS=$(tree -fi $TEST_DIRECTORY | grep -E [^/]Test.cpp)
 for FILE in $TESTS; do
     NAME_NO_EXTENSION=$(echo $FILE | cut -d '.' -f 1)                       # Quito la extension del fichero
@@ -36,11 +34,9 @@ for FILE in $TESTS; do
     mkdir -p ./$TEST_TMP_DIRECTORY/$FILE_PATH
 
     if [ $NAME_NO_EXTENSION != 'Test' ]; then                               # Compilo todo menos Test.cpp y Test.h
-        g++ $TEST_DIRECTORY/$NAME_NO_EXTENSION.cpp $TEST_TMP_DIRECTORY/*.o -o $TEST_TMP_DIRECTORY/$NAME_NO_EXTENSION -w > /dev/null 2>&1;
-        ./$TEST_TMP_DIRECTORY/$NAME_NO_EXTENSION $NAME_NO_EXTENSION >> test.log 2>/dev/null;
-        FAILURES=$?
-        [ $FAILURES -ne 0 ] && FAILED_TESTS="$FAILED_TESTS $NAME_NO_EXTENSION"
-        TOTAL_FAILURES=$((FAILURES + $FAILURES))
+        g++ $TEST_DIRECTORY/$NAME_NO_EXTENSION.cpp $TEST_TMP_DIRECTORY/*.o -o $TEST_TMP_DIRECTORY/$NAME_NO_EXTENSION -w 2> /dev/null
+        ./$TEST_TMP_DIRECTORY/$NAME_NO_EXTENSION $NAME_NO_EXTENSION >> test.log #2> /dev/null
+
     fi
 done;
 
