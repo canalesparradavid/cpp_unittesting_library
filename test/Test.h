@@ -17,7 +17,7 @@ class Test{
 
     protected:
         void assert(bool (*test)());
-        virtual void execute() = 0;
+        void execute();
 
     public:
         Test(std::string name);

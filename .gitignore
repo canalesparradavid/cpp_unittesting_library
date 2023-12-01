@@ -3,4 +3,5 @@ test/*
 !test/Test.cpp
 !test/Test.h
 
+test_tmp
 *.log

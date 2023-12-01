@@ -19,41 +19,21 @@ sudo apt install tree
 Para realizar los testeos las clases que implementarán los test unitarios deben heredar de la clase Test antes mencionada; aquí hay un ejemplo de test unitario.
 ```cpp
 /* AQUÍ VAN LAS IMPORTACIONES */
-#include <stdio.h>
 #include "Test.h"
 
 using namespace std;
 
-/* ESTA ES LA CLASE DE TEST QUE HEREDA DE TEST */
-class ExampleTest: public Test{
-    public:
-        using Test::Test;   // HEREDAMOS EL CONSTRUCTOR
-
-        /* ESTE METODO SE ENCARGA DE EJECUTAR TODAS LAS ASSERCIONES */
-        void execute(){
-            /* AQUÍ HAY QUE IR INCLUYENDO LOS DIFERETES TEST UNITARIOS */
-            assert(unitTestExample);
-        }
-
-        /* ESTO ES LA ESPECIFICACIÓN DE UN TEST UNITARIO */
-        static bool unitTestExample();
-};
-
-/* ESTA ES LA IMPLEMENTACIÓN DEL TEST UNITARIO */
-bool ExampleTest::unitTestExample2(){
-    /* AQUÍ VAN TODAS LAS COMPROBACIONES NECESARIAS */
+/* ESTA ES LA ESPECIFICACIÓN DE UN TEST UNITARIO */
+bool unitTestExample(){
     return true;
 }
 
-/* ESTA PARTE EJECUTA EL TEST */
-int main(int argc, char** argv){
-    ExampleTest *test = new ExampleTest(argv[1]);
-
-    /* ESTO EJECUTA TODOS LOS TEST */
-    test->assertAll();
-
-    return test->no_passes;
+/* ESTE METODO SE ENCARGA DE EJECUTAR TODAS LAS ASSERCIONES */
+void Test::execute(){
+    /* AQUÍ HAY QUE IR INCLUYENDO LOS DIFERETES TEST UNITARIOS */
+    assert(unitTestExample);
 }
+
 ```
 
 ### Testeo
@@ -69,4 +49,3 @@ En este output se pueden leer rápidamente el nombre de los fichero y ver si ha 
 También se pueden observar el numero de checks verdes y rojos a la izquierda del nombre del fichero.
 
 <center><img src="img/result_example.png"></center>
-

@@ -22,7 +22,6 @@ string extractName(string path){
 }
 
 Test::Test(std::string testName){
-    // printf(MSG_COLOR_BLUE"%s"MSG_COLOR_RESET"\n", msg);
     name = testName;
     errors = MSG_COLOR_RED;
     passes = 0;
@@ -30,19 +29,17 @@ Test::Test(std::string testName){
 }
 
 void Test::showResults(){
-    //if (no_passes != 0) {
-        printf(
-            MSG_COLOR_GREEN"(%4d OK    / "
-            MSG_COLOR_RED"%4d NO_OK    )"
-            MSG_COLOR_RESET" ",
-        passes, no_passes);
-        std::cout << name << std::endl;
+    printf(
+        MSG_COLOR_GREEN"(%4d OK    / "
+        MSG_COLOR_RED"%4d NO_OK    )"
+        MSG_COLOR_RESET" ",
+    passes, no_passes);
+    std::cout << name << std::endl;
 
-        if (no_passes != 0){
-            errors += "\n"MSG_COLOR_RESET;
-            std::cout << errors;
-        }
-    //}
+    if (no_passes != 0){
+        errors += "\n"MSG_COLOR_RESET;
+        std::cout << errors;
+    }
 }
 
 void Test::assertAll(){
@@ -54,7 +51,6 @@ void Test::error(int test){
     errors += "\t\t\t\tError in unitary test ";
     errors += std::to_string(test);
     errors += "\n";
-    //printf(MSG_COLOR_RED"Error in unitary test %d.\n"MSG_COLOR_RESET, test);
 }
 
 void Test::assert(bool (*test)()){
@@ -65,4 +61,12 @@ void Test::assert(bool (*test)()){
         no_passes += 1;
         error(passes + no_passes);
     }
+}
+
+int main(int argc, char** argv){
+    Test *test = new Test(argv[1]);
+
+    test->assertAll();
+
+    return test->no_passes;
 }
