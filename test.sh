@@ -4,11 +4,12 @@
 # PLEASE USE THE COMMAND dos2unix test.sh TO
 # FORMAT IT TO UNIX.
 
+LOG_FILE="test.log"
 SRC_DIRECTORY="src"
 TEST_DIRECTORY="test"
 TEST_TMP_DIRECTORY=$TEST_DIRECTORY"_tmp"
 
-date > test.log
+date > $LOG_FILE
 
 # Creo el directorio base de el testeo
 mkdir -p $TEST_TMP_DIRECTORY
@@ -25,7 +26,6 @@ for FILE in $DEPENDENCIES; do
 done;
 
 # Compilo los test
-COMPILATION_ERRORS=""
 TESTS=$(tree -fi $TEST_DIRECTORY | grep -E [^/]Test.cpp)
 for FILE in $TESTS; do
     NAME_NO_EXTENSION=$(echo $FILE | cut -d '.' -f 1)                       # Quito la extension del fichero
@@ -37,13 +37,11 @@ for FILE in $TESTS; do
     if [ $NAME_NO_EXTENSION != 'Test' ]; then                               # Compilo todo menos Test.cpp y Test.h
         g++ $TEST_DIRECTORY/$NAME_NO_EXTENSION.cpp $TEST_TMP_DIRECTORY/*.o -o $TEST_TMP_DIRECTORY/$NAME_NO_EXTENSION -w 2> /dev/null
         if [ $? = '1' ]; then
-            COMPILATION_ERRORS=$COMPILATION_ERRORS"ERROR COMPILANDO EL TEST: "$NAME_NO_EXTENSION"\n"
+            echo $COMPILATION_ERRORS"ERROR COMPILANDO EL TEST: "$NAME_NO_EXTENSION >> $LOG_FILE
         fi
-        #./$TEST_TMP_DIRECTORY/$NAME_NO_EXTENSION $NAME_NO_EXTENSION >> test.log 2> /dev/null
+        #./$TEST_TMP_DIRECTORY/$NAME_NO_EXTENSION $NAME_NO_EXTENSION >> LOG_FILE 2> /dev/null
     fi
 done;
-#echo $COMPILATION_ERRORS >> test.log
-echo "$COMPILATION_ERRORS" >> test.log
 
 # Ejecuto los test
 TESTS=$(tree -fi $TEST_DIRECTORY | grep -E [^/]Test.cpp)
@@ -55,10 +53,10 @@ for FILE in $TESTS; do
     mkdir -p ./$TEST_TMP_DIRECTORY/$FILE_PATH
 
     if [ $NAME_NO_EXTENSION != 'Test' ]; then                               # Compilo todo menos Test.cpp y Test.h
-        ./$TEST_TMP_DIRECTORY/$NAME_NO_EXTENSION $NAME_NO_EXTENSION >> test.log 2> /dev/null
+        ./$TEST_TMP_DIRECTORY/$NAME_NO_EXTENSION $NAME_NO_EXTENSION >> $LOG_FILE 2> /dev/null
     fi
 done;
 
-cat test.log
+cat $LOG_FILE
 
-#rm -rf $TEST_TMP_DIRECTORY
+rm -rf $TEST_TMP_DIRECTORY
