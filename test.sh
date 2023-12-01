@@ -31,13 +31,13 @@ TESTS=$(tree -fi $TEST_DIRECTORY | grep -E [^/]Test.cpp)
 for FILE in $TESTS; do
     NAME_NO_EXTENSION=$(echo $FILE | cut -d '.' -f 1)                       # Quito la extension del fichero
     NAME_NO_EXTENSION=$(echo $NAME_NO_EXTENSION | cut -d '/' -f 2-)         # Quito la primera parte de la ruta
-    FILE_PATH=$(echo "/"$NAME_NO_EXTENSION | rev | cut -d '/' -f 2- | rev)     # Almaceno la subruta
+    FILE_PATH=$(echo "/"$NAME_NO_EXTENSION | rev | cut -d '/' -f 2- | rev)  # Almaceno la subruta
 
     mkdir -p ./$TEST_TMP_DIRECTORY/$FILE_PATH
 
-    if [ $NAME_NO_EXTENSION != 'Test' ]; then
-        g++ $TEST_DIRECTORY/$NAME_NO_EXTENSION.cpp $TEST_TMP_DIRECTORY/*.o -o $TEST_TMP_DIRECTORY/$NAME_NO_EXTENSION -w;
-        ./$TEST_TMP_DIRECTORY/$NAME_NO_EXTENSION $NAME_NO_EXTENSION >> test.log;
+    if [ $NAME_NO_EXTENSION != 'Test' ]; then                               # Compilo todo menos Test.cpp y Test.h
+        g++ $TEST_DIRECTORY/$NAME_NO_EXTENSION.cpp $TEST_TMP_DIRECTORY/*.o -o $TEST_TMP_DIRECTORY/$NAME_NO_EXTENSION -w > /dev/null 2>&1;
+        ./$TEST_TMP_DIRECTORY/$NAME_NO_EXTENSION $NAME_NO_EXTENSION >> test.log 2>/dev/null;
         FAILURES=$?
         [ $FAILURES -ne 0 ] && FAILED_TESTS="$FAILED_TESTS $NAME_NO_EXTENSION"
         TOTAL_FAILURES=$((FAILURES + $FAILURES))
