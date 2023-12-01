@@ -9,6 +9,17 @@ SRC_DIRECTORY="src"
 TEST_DIRECTORY="test"
 TEST_TMP_DIRECTORY=$TEST_DIRECTORY"_tmp"
 
+# Configuro los colores
+if [ "$(uname)" = "Darwin" ] || [ "$(expr substr $(uname -s) 1 5)" = "Linux" ]; then
+    # Códigos ANSI para Linux y macOS
+    COLOR_RED='\e[1;31m'
+    COLOR_RESET='\e[0m'
+else
+    # Códigos ANSI para Windows con ANSICON
+    COLOR_RED="-e \x1B[1;31m"
+    COLOR_RESET='\x1B[0m'
+fi
+
 date > $LOG_FILE
 
 # Creo el directorio base de el testeo
@@ -37,7 +48,7 @@ for FILE in $TESTS; do
     if [ $NAME_NO_EXTENSION != 'Test' ]; then                               # Compilo todo menos Test.cpp y Test.h
         g++ $TEST_DIRECTORY/$NAME_NO_EXTENSION.cpp $TEST_TMP_DIRECTORY/*.o -o $TEST_TMP_DIRECTORY/$NAME_NO_EXTENSION -w 2> /dev/null
         if [ $? = '1' ]; then
-            echo "ERROR COMPILANDO EL TEST: "$NAME_NO_EXTENSION >> $LOG_FILE
+            echo $COLOR_RED"ERROR COMPILANDO EL TEST: "$NAME_NO_EXTENSION $COLOR_RESET >> $LOG_FILE
         fi
     fi
 done;
