@@ -4,9 +4,9 @@
 
 using namespace std;
 
-#define MSG_COLOR_RED "\x1b[31m"
-#define MSG_COLOR_GREEN "\x1b[32m"
-#define MSG_COLOR_BLUE "\x1b[34m"
+#define MSG_COLOR_RED "\x1b[1;31m"
+#define MSG_COLOR_GREEN "\x1b[1;32m"
+#define MSG_COLOR_BLUE "\x1b[1;34m"
 #define MSG_COLOR_RESET "\x1b[0m"
 
 string extractName(string path){
