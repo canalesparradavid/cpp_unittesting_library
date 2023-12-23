@@ -46,7 +46,7 @@ for FILE in $TESTS; do
     mkdir -p ./$TEST_TMP_DIRECTORY/$FILE_PATH
 
     if [ $NAME_NO_EXTENSION != 'Test' ]; then                               # Compilo todo menos Test.cpp y Test.h
-        g++ $TEST_DIRECTORY/$NAME_NO_EXTENSION.cpp $TEST_TMP_DIRECTORY/*.o -o $TEST_TMP_DIRECTORY/$NAME_NO_EXTENSION -w 2> /dev/null
+        g++ $TEST_DIRECTORY/$NAME_NO_EXTENSION.cpp $TEST_TMP_DIRECTORY/*.o -o $TEST_TMP_DIRECTORY/$NAME_NO_EXTENSION -w
         if [ $? = '1' ]; then
             echo $COLOR_RED"ERROR COMPILANDO EL TEST: "$NAME_NO_EXTENSION $COLOR_RESET >> $LOG_FILE
         fi
