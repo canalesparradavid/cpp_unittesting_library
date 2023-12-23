@@ -29,7 +29,7 @@ mkdir -p $TEST_TMP_DIRECTORY
 gcc $TEST_DIRECTORY/Test.cpp -c -o $TEST_TMP_DIRECTORY/Test.o -w
 
 #Compilo los fichero a testear
-DEPENDENCIES=$(tree -fi $SRC_DIRECTORY | grep .cpp)
+DEPENDENCIES=$(tree -fi $SRC_DIRECTORY | grep -E -v 'main\.cpp' | grep -E '\.cpp$')
 for FILE in $DEPENDENCIES; do
     NAME_NO_EXTENSION=$(echo $FILE | awk -F/ '{print $NF}')
     NAME_NO_EXTENSION=$(echo $NAME_NO_EXTENSION | cut -d '.' -f 1)
