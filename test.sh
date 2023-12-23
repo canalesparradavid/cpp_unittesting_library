@@ -21,6 +21,9 @@ else
 fi
 
 date > $LOG_FILE
+touch $LOG_FILE"ce"
+touch $LOG_FILE"ee"
+touch $LOG_FILE"ok"
 
 # Creo el directorio base de el testeo
 mkdir -p $TEST_TMP_DIRECTORY
@@ -48,7 +51,7 @@ for FILE in $TESTS; do
     if [ $NAME_NO_EXTENSION != 'Test' ]; then                               # Compilo todo menos Test.cpp y Test.h
         g++ $TEST_DIRECTORY/$NAME_NO_EXTENSION.cpp $TEST_TMP_DIRECTORY/*.o -o $TEST_TMP_DIRECTORY/$NAME_NO_EXTENSION -w
         if [ $? = '1' ]; then
-            echo $COLOR_RED"ERROR COMPILANDO EL TEST: "$NAME_NO_EXTENSION $COLOR_RESET >> $LOG_FILE
+            echo $COLOR_RED"ERROR COMPILANDO EL TEST: "$NAME_NO_EXTENSION $COLOR_RESET >> $LOG_FILE"ce"
         fi
     fi
 done;
@@ -60,10 +63,19 @@ for FILE in $TESTS; do
     NAME_NO_EXTENSION=$(echo $NAME_NO_EXTENSION | cut -d '/' -f 2-)         # Quito la primera parte de la ruta
 
     if [ $NAME_NO_EXTENSION != 'Test' ]; then                               # Compilo todo menos Test.cpp y Test.h
-        ./$TEST_TMP_DIRECTORY/$NAME_NO_EXTENSION $NAME_NO_EXTENSION >> $LOG_FILE 2> /dev/null
+        ./$TEST_TMP_DIRECTORY/$NAME_NO_EXTENSION $NAME_NO_EXTENSION >> $LOG_FILE"ok" 2> /dev/null
+        if [ $? = '139' ]; then
+            echo $COLOR_RED"ERROR EJECUTANDO EL TEST: "$NAME_NO_EXTENSION $COLOR_RESET >> $LOG_FILE"ee"
+        fi
     fi
 done;
 
+cat $LOG_FILE"ce" >> $LOG_FILE
+cat $LOG_FILE"ee" >> $LOG_FILE
+cat $LOG_FILE"ok" >> $LOG_FILE
 cat $LOG_FILE
 
 rm -rf $TEST_TMP_DIRECTORY
+rm -rf $LOG_FILE"ce"
+rm -rf  $LOG_FILE"ee"
+rm -rf  $LOG_FILE"ok"

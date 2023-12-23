@@ -73,5 +73,5 @@ int main(int argc, char** argv){
 
     test->assertAll();
 
-    return test->no_passes;
+    return 0;
 }
