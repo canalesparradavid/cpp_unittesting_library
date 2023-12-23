@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <fstream>
 #include "Test.h"
 
 using namespace std;
@@ -54,7 +55,11 @@ void Test::error(int test){
 }
 
 void Test::assert(bool (*test)()){
+    streambuf *oldCoutStreamBuf = std::cout.rdbuf();
+    ofstream devNull("/dev/null");
+    cout.rdbuf(devNull.rdbuf());
     bool result = test();
+    cout.rdbuf(oldCoutStreamBuf);
 
     if(result) passes += 1;
     else{
